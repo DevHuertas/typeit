@@ -1,0 +1,11 @@
+{
+   "src":"http://upload.wikimedia.org/wikipedia/commons/3/36/2004MINICooperS-001.JPG",
+   "word":"car",
+   "config":
+	{
+	  "highlight":true,
+          "show_word":true,
+          "blink_letter":true,
+          "sound_on":true
+	}
+}
