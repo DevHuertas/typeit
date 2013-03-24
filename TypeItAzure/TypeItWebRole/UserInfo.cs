@@ -57,7 +57,7 @@ namespace TypeItWebRole
         /// sends a user image to storage
         /// </summary>
         /// <param name="fromPath"></param>
-        public void UploadImage(string fromPath)
+        public string UploadImage(string fromPath)
         {
             try
             {
@@ -83,12 +83,36 @@ namespace TypeItWebRole
                 {
                     blockBlob.UploadFromStream(fileStream);
                 }
+                return blockBlob.Uri.ToString();
             }
             catch (FileNotFoundException ex)
             {
                 string s = "File not found: " + fromPath + ", " + ex;
             }
+            return String.Empty;
+        }
 
+        //Totally refactor this thing
+        public string UploadImage(Stream input, string uniquefilename)
+        {
+                var blobClient = _storageAccount.CreateCloudBlobClient();
+                var container = blobClient.GetContainerReference("usercontainer");
+
+                container.CreateIfNotExists();
+
+                //make public so we can download these from the browser
+                container.SetPermissions(
+                    new BlobContainerPermissions
+                    {
+                        PublicAccess =
+                            BlobContainerPublicAccessType.Blob
+                    });
+
+                //send the file!
+                var fileName = Path.GetFileName(uniquefilename);
+                var blockBlob = container.GetBlockBlobReference(fileName);
+                blockBlob.UploadFromStream(input);
+            return blockBlob.Uri.ToString();
         }
 
         string sqlConnectionString = "Data Source=rn8lvy4rm7.database.windows.net;Initial Catalog=TypeItDB;Persist Security Info=True;User ID=typeit;Password=hackautismQ!W@";
