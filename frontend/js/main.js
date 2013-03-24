@@ -40,6 +40,71 @@ jsonCallback = function(json){
     
 }
 
+categoryChange = function(json){
+    TYPEIT.onCategory(json);
+}
+
+getSodiio = function(json){
+    console.log("GOT SODIO:"+json);
+    getStory(json,function(canvas,word){
+        //convert canvas to img
+        //var csrc = canvas.toDataURL();
+        TYPEIT.toStory(canvas,word);
+    });
+}
+
+//RENDER THE SODIIO STORY
+function getStory(data,callback) {
+    //$.get("http://dialerservice.cloudapp.net:8080/Test/Sodiio", function (data) {
+        var stage = document.getElementById('stage');
+        var dynamicObject = data;
+        //grab our canvas
+        var c = document.createElement("canvas");
+        var word = "none";
+        c.width = stage.width;
+        c.height = stage.height;
+        //createElement
+        var ctx = c.getContext("2d");
+
+        //scle it
+        
+        ctx.scale(stage.width/1280,stage.height/800);
+
+
+        //Lets grab page one from the object
+        var activePage = dynamicObject.pages[0];
+        for (var index in activePage) {
+            var item = activePage[index];
+            if (index == 0) {
+                //image is background so lets do some callibration
+                var widthFactor = ctx.canvas.width / item.width;
+                var heightFactor = ctx.canvas.height / item.height;
+            }
+
+            if (item.type == "image") {
+                //We need to get the image and insert into the canvas taking into account the 
+                //Height differentials
+                //Set the correct dimensions into $img
+                var $img = $('<img>', { src: item.url });
+                $img[0].container = item;
+                //update with the proper position and what not
+                $img.load(function() {
+                    ctx.drawImage(this, this.container.x, this.container.y, this.container.width, this.container.height);
+                });
+
+            } else if (item.type == "text") {
+                //Update the active word ?
+                word = item.text;
+            }
+        }
+        
+        //draw text
+        callback(c, word);
+    //});
+}
+
+
+
 var TYPEIT = TYPEIT || (function(){
     
     var dialerserviceurl = "http://dialerservice.cloudapp.net:8080/Home/";
@@ -47,8 +112,11 @@ var TYPEIT = TYPEIT || (function(){
     
     var imageServiceurl="http://typeit.cloudapp.net/home/";
     
-    var categories = ['boat','strawberry','Dog']
+    var categories = ['dog','boat','monkey','strawberry']
     var catindex = 0;
+    
+    var rewardlinks = []
+    var rewardindex = 0;
     
     var defaults = {"car":""}
     
@@ -75,6 +143,8 @@ var TYPEIT = TYPEIT || (function(){
     var wordholder = $('#wordholder');
     //number of letter holders
     var numholders = 10;
+    
+    var storyMode = false;
     
     function playLoading(){
         var r = 10;
@@ -241,7 +311,7 @@ var TYPEIT = TYPEIT || (function(){
     }
         
     function reset(){
-        currword.clearBoxes();
+        //currword.completed();
         currword = null;
         //CAREFUL
         catindex = catindex+1;
@@ -259,8 +329,38 @@ var TYPEIT = TYPEIT || (function(){
             doPulse=true;
             pulseCurrentLetter();
         }
-        else
+        else{
+            currword.completed();
             reward();
+        }
+    }
+
+    function buildTypeTimer(fromWord){
+        var timer= {
+            correctcount:0,
+            incorrectcount:0,
+            word:fromWord,
+            lastkeyhit:0,
+            bored:false,
+            panic:false,
+            startedAt: null,
+            start: function(){
+                startedAt = new Date().getMilliseconds();
+                window.requestAnimFrame(timer.tick());
+            },
+            tick: function(){
+                console.log('tick');
+            },
+            stop: function(){
+                console.log('word was complete after ['+(new Date().getMilliseconds()-this.startedAt)+'] ms!');
+            },
+            send : function(){
+                console.log("bored:"+this.bored);
+                console.log("panic:"+this.panic);
+            }
+        }
+        
+        return timer;
     }
 
     function buildWord(newword)
@@ -270,6 +370,7 @@ var TYPEIT = TYPEIT || (function(){
             length:newword.length,
             windex:0,
             lindex:0,
+            timer: buildTypeTimer(newword),
             show:function(){
                 this.highlight();
             },
@@ -278,6 +379,15 @@ var TYPEIT = TYPEIT || (function(){
                 while(c<this.length){
                     var selector = "#"+this.word.charAt(c);
                     $(selector).css('background-color','#fff203');
+                    c=c+1;
+                }
+            },
+            resetLetters:function(){
+                var c=0;
+                while(c<this.length){
+                    var selector = "#"+this.word.charAt(c);
+                    $(selector).css('opacity',1.0);
+                    $(selector).css('background-color','#c4d739');
                     c=c+1;
                 }
             },
@@ -324,6 +434,13 @@ var TYPEIT = TYPEIT || (function(){
                     $(selector).fadeTo('fast',0.1);
                     $(selector).html("");
                 } 
+            },
+            completed: function(){
+                this.clearBoxes();
+                //stop gathering stats
+                this.timer.stop();
+                //send stats
+                this.timer.send();
             }
         } 
     }
@@ -377,11 +494,11 @@ var TYPEIT = TYPEIT || (function(){
     {
         console.log('panic!');
         showModal('panic','http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1');
-        
-
+        //tell timer that a panic event occurred
+        currword.timer.panic = true;
         
         //TODO: eventually we wont need a global function
-        /*
+        
         (function($) {
             var url = 'http://dialerservice.cloudapp.net:8080/Home/Panic';
 
@@ -401,18 +518,16 @@ var TYPEIT = TYPEIT || (function(){
             });
         
         })(jQuery);
-        */
+        
     }
     
     function bored()
     {
         console.log('bored!');
         showModal('bored','http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1');
-        
-
-        
-        //TODO: 
-        
+        dialer.changeCategory();
+        currword.timer.bored = true; 
+        //fetchSodiio();
     }
     
     function reward()
@@ -434,22 +549,143 @@ var TYPEIT = TYPEIT || (function(){
     function fetchNextImg(){
         waitingimg=true;
         requestAnimFrame(playLoading);
-        getPayload();
+        
+        if(storyMode)
+            processWord("school"); //HACK!!!
+        else
+            getPayload();
+    }
+    
+    
+    dialer = {
+        url:dialerserviceurl,
+        category:"",
+        polling:true,
+        pollcount:0,
+        operations:{"clean":"Clean","category":"RequestForNewContent/1","change":"RequestNewContent"},
+        clean: function(){
+            this.doOperation("clean");
+            this.fetchCategory();
+        },
+        fetchCategory: function(){
+            this.doOperation("category");
+        },
+        changeCategory: function(){
+            this.doOperation("change");
+            this.polling = true;
+            window.requestAnimFrame(dialer.pollForCategory);
+            this.pollForCategory();
+        },
+        pollForCategory: function(t){
+            if(dialer.polling)
+            {
+                if(dialer.pollcount%60===0)
+                    dialer.fetchCategory();
+                dialer.pollcount = dialer.pollcount+1;
+                window.requestAnimFrame(dialer.pollForCategory);
+            }else{
+                dialer.pollcount = 0;
+            }
+        },
+        doOperation:function(operation){
+            var that = this;
+            (function($) {
+                var url = that.url+that.operations[operation];
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    async: true,
+                    jsonpCallback: '',
+                    contentType: "text/plain",
+                    dataType: 'jsonp',
+                    success: function(json) {
+                        console.dir(json.sites);
+                    },
+                    error: function(e) {
+                        console.log(e.message);
+                    }
+                });
+        
+            })(jQuery);
+        }
+    }
+    
+    function fetchSodiio(){
+        (function($) {
+            var url = 'http://dialerservice.cloudapp.net:8080/Test/Sodiio';
+
+            $.ajax({
+               type: 'GET',
+                url: url,
+                async: true,
+                jsonpCallback: '',
+                contentType: "application/json",
+                dataType: 'jsonp',
+                success: function(json) {
+                   console.dir(json.sites);
+                },
+                error: function(e) {
+                   console.log(e.message);
+                }
+            });
+        
+        })(jQuery);
     }
     
     return {
         init: function(){
             console.log('init');
             stage = $('#stage');
+            //reset dialer
+            dialer.clean();
             $(window).keypress(function(evt){processKeyPress(evt);});
             setupCanvas();
             $(window).resize(function(e){console.log('resize');resizeCanvas();drawCurrentImg();});
             fetchNextImg();
             $('.panicholder').click(function(){panic();});
+            $('.frownholder').click(function(){bored();});
         },
         getStage: function(){return stage;},
         process: process,
         loadNextDefaultImage: loadDefault,
-        theword:function(){return currword;}
+        theword:function(){return currword;},
+        onCategory: function(category){
+            console.log("Category is:"+category);
+            if(!dialer.category)
+                dialer.category = category;
+            if(dialer.category && dialer.category !== category){
+                console.log("GOT A NEW CATEGORY");
+                dialer.polling = false;
+                fetchSodiio();
+            }
+        },
+        toStory: function(canvas,word){
+            var left = stage.css('left');
+            var top = stage.css('top');
+            var context = 
+            canvas.id ="story";
+            stage.replaceWith(canvas);
+            
+            //$(document.body).append("<div style='z-index:5000;position:absolute;top:"+(parseInt(top,10)-15)+";left:"+(parseInt(left,10)-10)+"'>I go to </div>");
+            
+            $('.sodiio').css('top',top);
+            $('.sodiio').css('left',left);
+            $('.sodiio').show();
+            
+            $("#story").css('position','absolute');
+            $("#story").css('top',top);
+            $("#story").css('left',left);
+            storyMode = true;
+            doPulse=false;
+
+            setTimeout(function(){
+                    $('#bored').modal('hide');
+                    currword.resetLetters();
+                    currword.completed();
+                    reset();
+            },300);
+
+        }
     }
 }());
