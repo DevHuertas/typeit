@@ -20,6 +20,11 @@ namespace TypeItWebRole.Controllers
         /// </summary>
         /// <value>The callback function name.</value>
         public string Callback { get; set; }
+        public string CallbackName { get; set; }
+        public JsonpResult()
+        {
+            CallbackName = "jsonCallback";
+        }
 
         /// <summary>
         /// Enables processing of the result of an action method by a
@@ -51,7 +56,7 @@ namespace TypeItWebRole.Controllers
 #pragma warning disable 0618
                 System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
                 string ser = serializer.Serialize(Data);
-                response.Write("jsonCallback" + Callback + "(" + ser + ");");
+                response.Write(CallbackName + Callback + "(" + ser + ");");
 #pragma warning restore 0618
             }
         }
@@ -180,6 +185,7 @@ namespace TypeItWebRole.Controllers
             JsonpResult jr = new JsonpResult();
             jr.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             jr.Data = stats;
+            jr.CallbackName = "jsonUserHistoryCallback";
             return jr;
         }
 
@@ -223,6 +229,7 @@ namespace TypeItWebRole.Controllers
             JsonpResult jr = new JsonpResult();
             jr.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             jr.Data = config;
+            jr.CallbackName = "jsonUserDataCallback";
             return jr;
         }
 
