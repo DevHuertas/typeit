@@ -140,17 +140,6 @@ namespace TypeItWebRole
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("InsertWord", connection);
-                command.Parameters.Add("@userName", System.Data.SqlDbType.NVarChar, 128);
-                command.Parameters["@username"].Value = userName;
-                command.Parameters.Add("@word", System.Data.SqlDbType.NVarChar, 128);
-                command.Parameters["@word"].Value = targetWord;
-                command.Parameters.Add("return_value", System.Data.SqlDbType.Int);
-                command.Parameters["return_value"].Direction = System.Data.ParameterDirection.ReturnValue;
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-
-                command.ExecuteNonQuery();
-
                 SqlCommand commandStat = new SqlCommand("InsertWordStat", connection);
                 commandStat.Parameters.Add("@userName", System.Data.SqlDbType.NVarChar, 128);
                 commandStat.Parameters["@username"].Value = userName;
@@ -307,5 +296,32 @@ namespace TypeItWebRole
             }
         }
 
+        public List<WordStat> GetWords(string userName)
+        {
+            List<WordStat> words = new List<WordStat>();
+
+            using (SqlConnection connection = new SqlConnection(sqlConnectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("GetWords", connection);
+                command.Parameters.Add("@userName", System.Data.SqlDbType.NVarChar);
+                command.Parameters["@userName"].Value = userName;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                SqlDataReader rdr = command.ExecuteReader();
+                while (rdr.Read())
+                {
+                    WordStat word = new WordStat();
+                    word.WordText = Convert.ToString(rdr["WordText"]);
+                    word.ImageUrl = Convert.ToString(rdr["ImageUrl"]);
+                    word.RewardUrl = Convert.ToString(rdr["RewardUrl"]);
+                    words.Add(word);
+                }
+            }
+            return words;
+
+        }
+        
     }
 }

@@ -233,6 +233,21 @@ namespace TypeItWebRole.Controllers
             return jr;
         }
 
+        public ActionResult GetWords(string UserName)
+        {
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: Words Updated";
+            UserInfo user = new UserInfo();
+
+            List<WordStat> words = user.GetWords(UserName);
+
+            JsonpResult jr = new JsonpResult();
+            jr.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            jr.Data = words;
+            jr.CallbackName = "jsonAvailableWordsCallback";
+            return jr;
+        }
+
         /// <summary>
         /// 
         /// </summary>

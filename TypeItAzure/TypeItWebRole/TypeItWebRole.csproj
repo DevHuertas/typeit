@@ -293,6 +293,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Home\GetStats.aspx" />
     <Content Include="Views\Home\GetUserData.aspx" />
+    <Content Include="Views\Home\GetWords.aspx" />
     <Content Include="Views\Home\Stats.aspx" />
     <Content Include="Views\Home\UpdateUserData.aspx" />
     <Content Include="Views\Home\UpdateWord.aspx" />
