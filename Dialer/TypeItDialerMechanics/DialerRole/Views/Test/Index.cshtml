@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test</title>
+        <script src="~/Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            function getStory(callback) {
+                $.get("http://127.0.0.1:8080/Test/Demo", function(data) {
+                    var dynamicObject = jQuery.parseJSON(data);
+                    //grab our canvas
+                    var c = document.createElement("canvas");
+                    var word = "none";
+                    c.width = 1280;
+                    c.height = 800;
+                    //createElement
+                    var ctx = c.getContext("2d");
+
+                    //Lets grab page one from the object
+                    var activePage = dynamicObject.pages[0];
+                    for (var index in activePage) {
+                        var item = activePage[index];
+                        if (index == 0) {
+                            //image is background so lets do some callibration
+                            var widthFactor = ctx.canvas.width / item.width;
+                            var heightFactor = ctx.canvas.height / item.height;
+                        }
+
+                        if (item.type == "image") {
+                            //We need to get the image and insert into the canvas taking into account the 
+                            //Height differentials
+                            //Set the correct dimensions into $img
+                            var $img = $('<img>', { src: item.url });
+                            $img[0].container = item;
+                            //update with the proper position and what not
+                            $img.load(function() {
+                                ctx.drawImage(this, this.container.x, this.container.y, this.container.width, this.container.height);
+                            });
+
+                        } else if (item.type == "text") {
+                            //Update the active word ?
+                            word = item.text;
+                        }
+                    }
+                    callback(c, word);
+                });
+            }
+
+            getStory(function(c, w) {
+                $(document.body).append(c);
+                alert(w);
+            });
+        </script>
+
+    </body>
+</html>
