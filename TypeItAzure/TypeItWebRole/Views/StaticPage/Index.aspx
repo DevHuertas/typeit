@@ -109,9 +109,13 @@
 
     <section>
         <h2>Upload Area</h2>
-        <div>Image</div>
-        <div>Word</div>
-        <div>Reward Video</div>
+        <p>Insert an Image Word and Video to create one new stage for your child</p>
+        <form method="POST" action="../FileManager/Upload" enctype="multipart/form-data" >
+            Image: <input type="file" name="uploadedImage" size="60"> <br/><br/>
+            Word: <input type="text" name="Word"/><br/><br/>
+            Reward Video: <input type="url" name="reward"/><br/><br/>
+            <input type="submit" value="Add Metadata"/>
+        </form>
     </section>
 
 
