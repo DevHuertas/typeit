@@ -16,6 +16,19 @@ namespace TypeItWebRole
         public string Uri { get; set; }
     }
 
+    /*
+     * this is how it will work for commons images
+        http://commons.wikimedia.org/w/api.php?action=query&prop=categories&titles=dog
+        then the images on that page
+        http://commons.wikimedia.org/w/api.php?action=query&pageids=49650&prop=images
+        finally get the image url
+        http://commons.wikimedia.org/w/api.php?action=query&titles=File:2008-06-28 Ruby begging.jpg&prop=imageinfo&iiprop=url
+    
+     * wikipedia is easier!
+           http://en.wikipedia.org/w/api.php?action=query&titles=dog&prop=images&format=json
+           http://en.wikipedia.org/w/api.php?action=query&titles= + img + &prop=imageinfo&iiprop=url&format=json
+     */
+
     public class WikiPediaService
     {   
         //public async Task<string> GetGizmosAsync();
