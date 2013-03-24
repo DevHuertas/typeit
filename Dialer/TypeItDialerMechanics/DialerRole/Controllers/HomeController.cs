@@ -30,7 +30,7 @@ namespace DialerRole.Controllers
         /// </summary>
         /// <value>The callback function name.</value>
         public string Callback { get; set; }
-
+        
         /// <summary>
         /// Enables processing of the result of an action method by a
         /// custom type that inherits from <see cref="T:System.Web.Mvc.ActionResult"/>.
