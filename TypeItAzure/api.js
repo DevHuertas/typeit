@@ -1,0 +1,1 @@
+spellcheck(["dog",["Dog","Doge of Venice","Dogma","Dog breed","Dogfight","Dogwood","Dog sled","Doge's Palace, Venice","Dog Day Afternoon","D\u014dgen"]])
