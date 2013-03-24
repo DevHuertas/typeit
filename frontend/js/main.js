@@ -251,8 +251,6 @@ var TYPEIT = TYPEIT || (function(){
         disableKeyboard();
         doPulse=false;
         fetchNextImg();
-        
-        //alert('Good Job!');
     }
 
     function pulseNextLetter(){
@@ -262,7 +260,7 @@ var TYPEIT = TYPEIT || (function(){
             pulseCurrentLetter();
         }
         else
-            reset();
+            reward();
     }
 
     function buildWord(newword)
@@ -378,11 +376,9 @@ var TYPEIT = TYPEIT || (function(){
     function panic()
     {
         console.log('panic!');
+        showModal('panic','http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1');
         
-        
-        $('#panic .modal-body').append("<iframe width='425' height='239' src='http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1' frameborder='0'allowfullscreen></iframe>");
-        $('#panic').on('hide',function(){$('#panic .modal-body').html("")});
-        $('#panic').modal('show');
+
         
         //TODO: eventually we wont need a global function
         /*
@@ -406,6 +402,33 @@ var TYPEIT = TYPEIT || (function(){
         
         })(jQuery);
         */
+    }
+    
+    function bored()
+    {
+        console.log('bored!');
+        showModal('bored','http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1');
+        
+
+        
+        //TODO: 
+        
+    }
+    
+    function reward()
+    {
+        console.log('reward!');
+        showModal('reward','http://www.youtube.com/embed/5NqMWsQCUQE?autoplay=1&cc_load_policy=1',reset);
+        //TODO: 
+        
+    }
+
+    function showModal(modalid,youtubeurl,callback){
+        var selector = "#"+modalid;
+        var bodyselector = selector + " .modal-body";
+        $(bodyselector).append("<iframe width='425' height='239' src='"+youtubeurl+"' frameborder='0'allowfullscreen></iframe>");
+        $(selector).on('hide',function(){$(bodyselector).html("");if(callback){callback();}});
+        $(selector).modal('show');        
     }
 
     function fetchNextImg(){
