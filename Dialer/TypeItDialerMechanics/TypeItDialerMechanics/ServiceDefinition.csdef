@@ -13,6 +13,11 @@
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
+      <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="Storage" />
+    </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>
