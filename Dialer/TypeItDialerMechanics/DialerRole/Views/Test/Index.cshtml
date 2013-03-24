@@ -11,7 +11,7 @@
     <body>
         <script type="text/javascript">
             function getStory(callback) {
-                $.get("http://127.0.0.1:8080/Test/Demo", function(data) {
+                $.get("http://dialerservice.cloudapp.net:8080/Test/Demo", function (data) {
                     var dynamicObject = jQuery.parseJSON(data);
                     //grab our canvas
                     var c = document.createElement("canvas");
