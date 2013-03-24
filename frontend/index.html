@@ -1,22 +1,160 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="1187.34">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    span.Apple-tab-span {white-space:pre}
-  </style>
-</head>
-<body>
-<p class="p1">&lt;html&gt;</p>
-<p class="p1"><span class="Apple-tab-span">	</span>&lt;title&gt;TypeIt!&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;body&gt;</p>
-<p class="p1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>&lt;h1&gt;Coming Soon&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">         </span>&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
-</body>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+
+          
+        <div id="content">
+          <div id="viewer">
+            <div class="bored">
+              <div class="buffer"></div>
+              <div class="frownholder"></div>
+            </div>
+            <div id="viewport" class="inner"><canvas id="stage" height="100%" width="100%"></canvas></div>
+            <div class="panic">
+              <div class="buffer"></div>
+              <div class="panicholder"></div>
+            </div>
+          </div>
+          <div id="gutter">
+            <div class="bored"></div>
+            <div class="inner">
+                <!-- WORDS -->
+                <div id="wordbox">
+                    <div id="wordholder">
+                        <div id="l1" class="letter"></div>
+                        <div id="l2" class="letter"></div>
+                        <div id="l3" class="letter"></div>
+                        <div id="l4" class="letter"></div>
+                        <div id="l5" class="letter"></div>
+                        <div id="l6" class="letter"></div>
+                        <div id="l7" class="letter"></div>
+                        <div id="l8" class="letter"></div>
+                        <div id="l9" class="letter"></div>
+                        <div id="l10" class="letter"></div>
+                    </div>
+                </div>
+                <!-- KEYBOARD -->
+                <div id="keyboard-container">
+                  <div id="keyboard">
+                    
+                    <div class="keyrow">
+                        <div class="keyholder"><div id="Q" class="key">Q</div></div>
+                        <div class="keyholder"><div id="W" class="key">W</div></div>
+                        <div class="keyholder"><div id="E" class="key">E</div></div>
+                        <div class="keyholder"><div id="R" class="key">R</div></div>
+                        <div class="keyholder"><div id="T" class="key">T</div></div>
+                        <div class="keyholder"><div id="Y" class="key">Y</div></div>
+                        <div class="keyholder"><div id="U" class="key">U</div></div>
+                        <div class="keyholder"><div id="I" class="key">I</div></div>
+                        <div class="keyholder"><div id="O" class="key">O</div></div>
+                        <div class="keyholder"><div id="P" class="key">P</div></div>                  
+                    </div>
+                    
+                    
+                    <div class="keyrow">
+                        <div id="rowtwo">
+                          <div class="keyholder"><div id="A" class="key">A</div></div>
+                          <div class="keyholder"><div id="S" class="key">S</div></div>
+                          <div class="keyholder"><div id="D" class="key">D</div></div>
+                          <div class="keyholder"><div id="F" class="key">F</div></div>
+                          <div class="keyholder"><div id="G" class="key">G</div></div>
+                          <div class="keyholder"><div id="H" class="key">H</div></div>
+                          <div class="keyholder"><div id="J" class="key">J</div></div>
+                          <div class="keyholder"><div id="K" class="key">K</div></div>
+                          <div class="keyholder"><div id="L" class="key">L</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="keyrow">
+                      <div id="rowthree">
+                        <div class="keyholder"><div id="Z" class="key">Z</div></div>
+                        <div class="keyholder"><div id="X" class="key">X</div></div>
+                        <div class="keyholder"><div id="C" class="key">C</div></div>
+                        <div class="keyholder"><div id="V" class="key">V</div></div>
+                        <div class="keyholder"><div id="B" class="key">B</div></div>
+                        <div class="keyholder"><div id="H" class="key">H</div></div>
+                        <div class="keyholder"><div id="N" class="key">N</div></div>
+                        <div class="keyholder"><div id="M" class="key">M</div></div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div><!-- keyboard-container -->  
+            </div><!-- inner -->
+            <div class="panic">
+            </div>
+          </div>
+        </div>
+        
+        <!-- modal panes -->
+        <!-- Modal Stuff -->
+        <div id="panic" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Take a deep breath" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Its OK</h3>
+          </div>
+          <div class="modal-body">
+            <!--
+            FIX
+            <iframe width='425' height='239' src='http://www.youtube.com/embed/3ichQOqbewA?autoplay=1&cc_load_policy=1' frameborder='0"'allowfullscreen></iframe>
+            -->
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+        </div>
+        
+        <div id="reward" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Good Job!" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Way to go!</h3>
+          </div>
+          <div class="modal-body">
+            <!--
+            FIX
+            <iframe width="425" height="239" src="http://www.youtube.com/embed/5NqMWsQCUQE?autoplay=1&cc_load_policy=1" frameborder="0" allowfullscreen></iframe>
+            -->
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+        </div>
+        
+
+
+        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+        <!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>-->
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/vendor/bootstrap-modal.js"></script>
+        
+        <!--<script src="js/plugins.js"></script>-->
+        <script src="js/main.js"></script>
+
+        <script>
+          $(document).ready(function(){TYPEIT.init();});
+        </script>
+    </body>
 </html>

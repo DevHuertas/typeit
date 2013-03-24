@@ -1,0 +1,185 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+html,body
+{
+    height:100%;
+    width: 100%;
+    padding:0;
+    margin:0;
+}
+
+#content
+{
+    height:100%;
+    width: 100%;
+    padding:0;
+    margin:0;   
+}
+
+#viewer
+{
+    height:50%;
+    width: 100%;
+    padding:0;
+    margin:0;
+    background-color: black;
+}
+
+.bored
+{
+    float:left;
+    width: 10%;
+    height: 100%;
+    padding:0;
+    margin:0;
+    background-color: #007dc3;
+}
+
+.panic
+{
+    float:left;
+    width: 10%;
+    height: 100%;
+    padding:0;
+    margin:0;
+    background-color: #f68b1f;
+
+}
+
+.inner
+{
+    float:left;
+    position:relative;
+    width: 80%;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+
+#gutter
+{
+    height:50%;
+    width: 100%;
+    padding:0;
+    margin:0;
+}
+
+#wordbox{
+    width:100%;
+    height: 30%;
+    background-color:#00b24a ;
+    padding:0;
+    margin:0;
+}
+
+#wordholder{
+    margin-right:10%;
+    margin-left:10%;
+    height: 90%;
+    width:80%;
+}
+
+.letter
+{
+    float:left;
+    height: 100%;
+    width: 9%;
+    margin-left:1%;
+    background-color:#007dc3;
+    color:#007dc3;
+    opacity:0.1;
+    font-size: 2em;
+    line-height:3em;
+    text-align: center;
+    vertical-align:middle;
+}
+
+#keyboard-container{
+    width:100%;
+    height: 70%;
+}
+
+#keyboard{
+    height:100%;
+    width: 100%;    
+}
+
+.keyholder
+{
+    float:left;
+    position:relative;
+    height: 100%;
+    width: 10%;
+}
+
+.key
+{
+    
+    background-color:#c4d739;
+    margin: 0 auto 1% auto; 
+    padding-top: 1%;
+    font-size: 2em;
+    color: white;
+    line-height:2.1em;
+    text-align: center;
+    vertical-align:middle;
+    height:80%;
+    width: 90%;
+    
+
+}
+
+
+
+
+.keyrow{
+    width:100%;
+    height:33.3333%;
+    background-color:#00b24a;
+    position:relative;
+    
+}
+
+#rowtwo{
+    position:absolute;
+    width:100%;
+    height: 100%;
+    left: 4em;
+}
+
+#rowthree{
+    position:absolute;
+    width:100%;
+    height: 100%;
+    left: 7em;
+}
+
+.buffer{
+    width:100%;
+    height: 70%;  
+}
+
+.frownholder{
+    width:100%;
+    height: 30%;
+    background:url('../img/frown.png') no-repeat center center;
+    cursor: pointer;
+}
+
+.panicholder{
+    width:100%;
+    height: 30%;
+    background:url('../img/panic.png') no-repeat center center;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
