@@ -4,6 +4,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="../html/css/bootstrap.css" rel="stylesheet" />
+      <style type="text/css">
+#grid {
+    display: -ms-grid;
+    -ms-grid-columns: auto 1fr;
+    -ms-grid-rows: auto 1fr auto;
+}
+ 
+</style>
+
+
   </head>
   <body>
     <script src="http://code.jquery.com/jquery.js"></script>
@@ -63,12 +73,50 @@
         }
 
         function jsonUserHistoryCallback(data) {
+            document.getElementById('loading').style.display = "none";
+
+            //this will return a list
+            $.each(data, function (key, value) {
+
+                var oRow = document.getElementById('historyTable').insertRow(-1);
+
+                var oCell = oRow.insertCell(-1);
+                oCell.innerHTML = value.WordText;
+                
+                oCell = oRow.insertCell(-1);
+                oCell.innerHTML = value.Bored;
+                oCell.style.backgroundColor = "lightblue";
+
+                oCell = oRow.insertCell(-1);
+                oCell.innerHTML = value.Panic;
+
+                oCell = oRow.insertCell(-1);
+                oCell.innerHTML = value.Duration;
+                oCell.style.backgroundColor = "lightblue";
+
+                oCell = oRow.insertCell(-1);
+                if (value.ImageUrl != null && value.ImageUrl != "") {
+                    oCell.innerHTML = '<a target="_blank" href="' + value.ImageUrl + '">Image Link</a>';
+                }
+                else {
+                    oCell.innerHTML = "None";
+                }
+
+                oCell = oRow.insertCell(-1);
+                oCell.style.backgroundColor = "lightblue";
+                if (value.RewardUrl != null && value.RewardUrl != "") {
+                    oCell.innerHTML = '<a target="_blank" href="' + value.RewardUrl + '">Video Link</a>';
+                }
+                else {
+                    oCell.innerHTML = "None";
+                }
+            });
         }
 
     </script>
-    <section>
-        <h2>User Settings for Jenny</h2>
-        <section>
+      <h1>Jenny's TypeIt!</h1>
+        <section style="width:640px;margin-left:auto;margin-right:auto">
+        <h2>Settings</h2>
         <div class="btn-group" id="showWordsGroup" data-toggle="buttons-radio">
             <h4>Show Words</h4>
           <button type="button" id="wordsOn" data-value="true" class="btn btn-primary active">On</button>
@@ -97,14 +145,27 @@
           <button type="button" id="highlightOff" data-value="false" class="btn btn-primary active">Off</button>
          </div>
     
-            <br />
      </section>
-        <button type="button" id="submitSettings" onclick="submitSettings()">Save</button>
-        <button type="button" id="refresh" onclick="refreshSettings(updateSettings)">Refresh</button>
+            <br />
+                    <br />
+<section>
+        <button type="button" id="submitSettings" onclick="submitSettings()">Save Settings</button>
     </section>
 
     <section>
         <h2>User Statistics</h2>
+        <h3 id="loading" style="color:red">Loading....</h3>
+        <table id="historyTable" style="border: 2px solid black;">
+            <thead><tr>
+            <th >Word</th>
+            <th style="background-color:lightblue" >Was Bored</th>
+            <th >Panicked!</th>
+            <th style="background-color:lightblue">Duration</th>
+<th>Image Link</th>
+<th style="background-color:lightblue">Reward Link</th>
+            </tr>
+             </thead>
+       </table>
     </section>
 
     <section>

@@ -269,6 +269,7 @@
     <Content Include="Html\css\bootstrap-responsive.min.css" />
     <Content Include="Html\css\bootstrap.css" />
     <Content Include="Html\css\bootstrap.min.css" />
+    <Content Include="Html\img\Cute%2520girl%2520cartoon.jpg" />
     <Content Include="Html\img\glyphicons-halflings-white.png" />
     <Content Include="Html\img\glyphicons-halflings.png" />
     <Content Include="Html\js\bootstrap.js" />
