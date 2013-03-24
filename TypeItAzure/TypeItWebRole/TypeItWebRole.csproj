@@ -186,6 +186,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StaticPageController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -264,6 +265,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Html\css\bootstrap-responsive.css" />
+    <Content Include="Html\css\bootstrap-responsive.min.css" />
+    <Content Include="Html\css\bootstrap.css" />
+    <Content Include="Html\css\bootstrap.min.css" />
+    <Content Include="Html\img\glyphicons-halflings-white.png" />
+    <Content Include="Html\img\glyphicons-halflings.png" />
+    <Content Include="Html\js\bootstrap.js" />
+    <Content Include="Html\js\bootstrap.min.js" />
+    <Content Include="Html\Settings.html" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.1.js" />
@@ -279,7 +289,18 @@
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\Home\GetStats.aspx" />
+    <Content Include="Views\Home\GetUserData.aspx" />
     <Content Include="Views\Home\Stats.aspx" />
+    <Content Include="Views\Home\UpdateUserData.aspx" />
+    <Content Include="Views\Home\UpdateWord.aspx" />
+    <Content Include="Views\StaticPage\css\bootstrap-responsive.css" />
+    <Content Include="Views\StaticPage\css\bootstrap-responsive.min.css" />
+    <Content Include="Views\StaticPage\css\bootstrap.css" />
+    <Content Include="Views\StaticPage\css\bootstrap.min.css" />
+    <Content Include="Views\StaticPage\Index.aspx" />
+    <Content Include="Views\StaticPage\js\bootstrap.js" />
+    <Content Include="Views\StaticPage\js\bootstrap.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

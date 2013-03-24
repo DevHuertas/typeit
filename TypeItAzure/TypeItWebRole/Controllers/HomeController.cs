@@ -155,10 +155,96 @@ namespace TypeItWebRole.Controllers
             user.UploadStats(UserName, Word, Duration, Panic, Bored, missed);
 
             //get the latest stats and put in the message
-            ViewBag.Message = "Stats: " + user.GetStats(UserName, Word);
-            
+            ViewBag.Message = "Stats: Delivered";
             return View();
         }
-    
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Word"></param>
+        /// <param name="Duration"></param>
+        /// <param name="Panic"></param>
+        /// <param name="Bored"></param>
+        /// <returns></returns>
+        public ActionResult GetStats(string UserName, string Word)
+        {
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: Delivered";
+            UserInfo user = new UserInfo();
+
+            List<WordStat> stats = user.GetStats(UserName, Word);
+
+            JsonpResult jr = new JsonpResult();
+            jr.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            jr.Data = stats;
+            return jr;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Word"></param>
+        /// <param name="Duration"></param>
+        /// <param name="Panic"></param>
+        /// <param name="Bored"></param>
+        /// <returns></returns>
+        public ActionResult UpdateWord(string UserName, string Word, string ImageUrl, string RewardUrl)
+        {
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: Updated";
+            UserInfo user = new UserInfo();
+
+            user.UpdateWord(UserName, Word, ImageUrl, RewardUrl);
+
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Word"></param>
+        /// <param name="Duration"></param>
+        /// <param name="Panic"></param>
+        /// <param name="Bored"></param>
+        /// <returns></returns>
+        public ActionResult GetUserData(string UserName)
+        {
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: Updated";
+            UserInfo user = new UserInfo();
+
+            UserConfig config= user.GetUserData(UserName);
+
+            JsonpResult jr = new JsonpResult();
+            jr.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            jr.Data = config;
+            return jr;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="highlight"></param>
+        /// <param name="showWord"></param>
+        /// <param name="sounds"></param>
+        /// <param name="blink"></param>
+        /// <returns></returns>
+        public ActionResult UpdateUserData(string UserName, bool highlight, bool showWord, bool sounds, bool blink)
+        {
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: Updated";
+            UserInfo user = new UserInfo();
+
+            user.UpdateUserData(UserName, highlight, showWord, sounds, blink);
+
+            return View();
+        }
+
     }
 }
