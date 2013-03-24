@@ -96,12 +96,19 @@ namespace TypeItWebRole.Controllers
                 try
                 {
                     List<WikiImage> imgs = srv.GetImages(category);
-                    img.Src = imgs[0].Uri;
-                    img.Word = imgs[0].Title;
-                    //grab the reward video 
-                    img.RewardVideo = youtubeSrv.GetVideo(category);
-                    jr.Data = img;
-                    return jr;
+
+                    if (imgs.Count > 0)
+                    {
+                        img.Src = imgs[0].Uri;
+                        img.Word = imgs[0].Title;
+                        //grab the reward video 
+                        img.RewardVideo = youtubeSrv.GetVideo(category);
+                        jr.Data = img;
+                        return jr;
+                    }
+
+                    ViewBag.Message = "No images were found! ";
+
                 }
                 catch (System.Exception ex)
                 {
@@ -122,9 +129,36 @@ namespace TypeItWebRole.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            UserInfo user = new UserInfo();
 
+            user.UploadImage("C:\\Temp\\RegSet.cfg");
+
+            ViewBag.Message = "File Uploaded!";
             return View();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Word"></param>
+        /// <param name="Duration"></param>
+        /// <param name="Panic"></param>
+        /// <param name="Bored"></param>
+        /// <returns></returns>
+        public ActionResult Stats(string UserName, string Word, int Duration, bool Panic, bool Bored)
+        {
+            UserInfo user = new UserInfo();
+
+            //word, time to completion, used panic, bored, missed letters (array, count)
+            List<MissedLetter> missed = new List<MissedLetter>();
+
+            user.UploadStats(UserName, Word, Duration, Panic, Bored, missed);
+
+            //get the latest stats and put in the message
+            ViewBag.Message = "Stats: " + user.GetStats(UserName, Word);
+            
+            return View();
+        }
+    
     }
 }

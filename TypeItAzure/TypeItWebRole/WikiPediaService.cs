@@ -18,10 +18,8 @@ namespace TypeItWebRole
 
     /*
      * this is how it will work for commons images
-        http://commons.wikimedia.org/w/api.php?action=query&prop=categories&titles=dog
-        then the images on that page
-        http://commons.wikimedia.org/w/api.php?action=query&pageids=49650&prop=images
-        finally get the image url
+        http://commons.wikimedia.org/w/api.php?action=query&prop=categories&titles=dog&prop=images
+        get the image url
         http://commons.wikimedia.org/w/api.php?action=query&titles=File:2008-06-28 Ruby begging.jpg&prop=imageinfo&iiprop=url
     
      * wikipedia is easier!
@@ -30,7 +28,9 @@ namespace TypeItWebRole
      */
 
     public class WikiPediaService
-    {   
+    {
+        bool _useCommons = true;
+
         //public async Task<string> GetGizmosAsync();
         // Implementation removed.
 
@@ -55,7 +55,16 @@ namespace TypeItWebRole
         /// <returns></returns>
         public string GetPath(string img)
         {
-            string url = "http://en.wikipedia.org/w/api.php?action=query&titles=" + img + "&prop=imageinfo&iiprop=url&format=json";
+            string url = "";
+
+            if (_useCommons)
+            {
+                url = "http://commons.wikimedia.org/w/api.php?action=query&titles=" + img + "&prop=imageinfo&iiprop=url&format=json";
+            }
+            else
+            {
+                url = "http://en.wikipedia.org/w/api.php?action=query&titles=" + img + "&prop=imageinfo&iiprop=url&format=json";
+            }
             string _UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
 
             using (WebClient webClient = new WebClient())
@@ -82,7 +91,16 @@ namespace TypeItWebRole
         {
             List<WikiImage> retList = new List<WikiImage>();
 
-            string url = "http://en.wikipedia.org/w/api.php?action=query&titles=" + title + "&prop=images&format=json";
+            string url;
+            
+            if (_useCommons)
+            {
+                url = "http://commons.wikimedia.org/w/api.php?action=query&prop=categories&titles=" + title + "&prop=images&format=json";
+            }
+            else
+            {
+                url = "http://en.wikipedia.org/w/api.php?action=query&titles=" + title + "&prop=images&format=json";
+            }
             string _UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
 
             using (WebClient webClient = new WebClient())
@@ -91,22 +109,29 @@ namespace TypeItWebRole
                 webClient.Headers.Add(HttpRequestHeader.UserAgent, _UserAgent);
                 string json = webClient.DownloadString(url);
 
-                //break this down. 
-                var pages = System.Web.Helpers.Json.Decode(json).query.pages;
-                
-                foreach (var page in pages)
-                {                   
-                    //should be an ID
-                    var images = page.Value.images;
-                    foreach (var image in images)
+                try
+                {
+                    //break this down. 
+                    var pages = System.Web.Helpers.Json.Decode(json).query.pages;
+
+                    foreach (var page in pages)
                     {
-                        WikiImage img = new WikiImage();
-                        img.Title = page.Value.title;        //this is our image name!
-                        img.Uri = GetPath(image.title);
-                        retList.Add(img);
+                        //should be an ID
+                        var images = page.Value.images;
+                        foreach (var image in images)
+                        {
+                            WikiImage img = new WikiImage();
+                            img.Title = page.Value.title;        //this is our image name!
+                            img.Uri = GetPath(image.title);
+                            retList.Add(img);
+                        }
                     }
                 }
+                catch(System.Exception)
+                {
+                }
     
+                //will return empty list if nothing found
                 return retList;
             }
 
