@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="TypeItDialerMechanics" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2012-10.1.8">
+  <Role name="DialerRole">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=typeitapp;AccountKey=D7pYozA+czEsdmz3TiYfyOqanR/AsFtHqCZKW9YMegcvv0UTM+3y5oRZXB5f+VmleKSyyV6dwfrLtfl/bP98AQ==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="alfredo" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEH1XcjVBYoqGRZaw35IcoSUwDQYJKoZIhvcNAQEBBQAEggEAU/buA9/PCxeqm+0G1b7AHpgvI/A2QxLCF/S6eRxq1vpMGjV3HQdut7arrLcdAMJSfdnZ+4EmUAGMgStJt6BXsCdX/mGPuNkUGZBW1Uu9bGPaUGZpz8r/avsF2StuAv/KZ2M3E+LG15ZySnziHVGyJ5RiSiTLaONU+P15Vh6QkHVY723axCT0in/X8i51hWsy50uW2k07E0EG/zLP6Lvk2Jme+i8PukmWZM01tzamiBQQcVUhaGgyA4kG5CHsVEvHM4A89gfsxvgOWKdli2Y7ax8Mw/a2fR2WVfCeZhxhPP40LLlNrL0PMrJny5QCbTtQpHXr0VJciFf1SbpQE+OX0zAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECOV1PFOSGyWJgBBkFLD8mmCQQ/ZycLIuxSGO" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2014-03-23T23:59:59.0000000-07:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="Storage" value="DefaultEndpointsProtocol=https;AccountName=dialerservice;AccountKey=tp0L83E+C92RsXKbcF2hrEAG27Keek1uGo9ZmwWNXIqWrklq+DadPfSwLsWE1rvigUh3YAwdbh7Vve6U1qqBrA==" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="28918B89E24188F27DD944330D562DE009BB779A" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>
