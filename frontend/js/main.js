@@ -33,9 +33,7 @@ function getChar(event) {
 jsonCallback = function(json){
     console.log('Got json from image server!');
     
-    if(!json)
-       TYPEIT.loadNextDefaultImage();
-    else
+    if(json && json['Src']!==undefined && json['Word']!==undefined)
         TYPEIT.process(json['Src'],json['Word']);
     
 }
@@ -107,12 +105,14 @@ function getStory(data,callback) {
 
 var TYPEIT = TYPEIT || (function(){
     
+    var first = true;
+    
     var dialerserviceurl = "http://dialerservice.cloudapp.net:8080/Home/";
     var dialeractions = {"panic":"Panic","bored":"Bored"};
     
     var imageServiceurl="http://typeit.cloudapp.net/home/";
     
-    var categories = ['dog','boat','monkey','strawberry']
+    var categories = ['dog','boat','strawberry','bicycle']
     var catindex = 0;
     
     var rewardlinks = []
@@ -223,6 +223,7 @@ var TYPEIT = TYPEIT || (function(){
     
     function process(imgSrc,newword)
     {
+        
         currentimg = imgSrc;
         loadCurrentImg();
         //TODO: figure out why there is a lag
@@ -312,8 +313,10 @@ var TYPEIT = TYPEIT || (function(){
         
     function reset(){
         //currword.completed();
-        currword = null;
+        //currword.timer = null;
+        //currword = null;
         //CAREFUL
+        waitingimg=false;
         catindex = catindex+1;
         pulseFrame = 0;
         decrease = true;
@@ -343,6 +346,7 @@ var TYPEIT = TYPEIT || (function(){
             lastkeyhit:0,
             bored:false,
             panic:false,
+            wordtime:0,
             startedAt: null,
             start: function(){
                 startedAt = new Date().getMilliseconds();
@@ -352,11 +356,28 @@ var TYPEIT = TYPEIT || (function(){
                 console.log('tick');
             },
             stop: function(){
-                console.log('word was complete after ['+(new Date().getMilliseconds()-this.startedAt)+'] ms!');
+                this.wordtime = (new Date().getMilliseconds()-this.startedAt);
+                console.log('word was complete after ['+this.wordtime+'] ms!');
             },
             send : function(){
                 console.log("bored:"+this.bored);
                 console.log("panic:"+this.panic);
+                //send stats
+                var url = "http://typeit.cloudapp.net/home/stats?UserName=Jenny&Word="+this.word+"&Duration="+this.wordtime+"&Panic="+this.panic+"&Bored="+this.bored;
+               $.ajax({
+                     type: 'GET',
+                     url: url,
+                     async: true,
+                     jsonpCallback: '',
+                     contentType: "application/json",
+                     dataType: 'jsonp',
+                     success: function(json) {
+                        console.dir(json.sites);
+                     },
+                     error: function(e) {
+                        console.log(e.message);
+                     }
+            });
             }
         }
         
@@ -365,11 +386,14 @@ var TYPEIT = TYPEIT || (function(){
 
     function buildWord(newword)
     {
+        
+            
         return {
             word:newword.toUpperCase(),
             length:newword.length,
             windex:0,
             lindex:0,
+            done:false,
             timer: buildTypeTimer(newword),
             show:function(){
                 this.highlight();
@@ -436,11 +460,17 @@ var TYPEIT = TYPEIT || (function(){
                 } 
             },
             completed: function(){
+                this.done = true;
                 this.clearBoxes();
                 //stop gathering stats
                 this.timer.stop();
                 //send stats
-                this.timer.send();
+                try{
+                    this.timer.send();
+                }catch(err){
+                    console.log('oops');
+                }
+
             }
         } 
     }
@@ -547,13 +577,16 @@ var TYPEIT = TYPEIT || (function(){
     }
 
     function fetchNextImg(){
-        waitingimg=true;
-        requestAnimFrame(playLoading);
-        
-        if(storyMode)
+
+        if(storyMode){
             processWord("school"); //HACK!!!
-        else
+        }
+        else if(first || currword.done){
+            first=false;
+            waitingimg=true;
+            requestAnimFrame(playLoading);
             getPayload();
+        }
     }
     
     
@@ -663,7 +696,7 @@ var TYPEIT = TYPEIT || (function(){
         toStory: function(canvas,word){
             var left = stage.css('left');
             var top = stage.css('top');
-            var context = 
+            //var context = 
             canvas.id ="story";
             stage.replaceWith(canvas);
             
@@ -678,7 +711,7 @@ var TYPEIT = TYPEIT || (function(){
             $("#story").css('left',left);
             storyMode = true;
             doPulse=false;
-
+            waitingimg = true;
             setTimeout(function(){
                     $('#bored').modal('hide');
                     currword.resetLetters();
